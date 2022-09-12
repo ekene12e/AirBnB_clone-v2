@@ -144,6 +144,8 @@ class HBNBCommand(cmd.Cmd):
 
             if value[0] == value[-1] == '"':
                 value = value[1:-1]
+                if '"' in value:
+                    value = value.strip('\\')
             else:
                 # If value isn't in quotation marks
                 # it might be a numerical value
