@@ -138,10 +138,9 @@ class HBNBCommand(cmd.Cmd):
 
         # Go over all attributes and split keys and values from the `=` sign
         for attribute in attributes:
-            key, value = attribute.split('=')
+            key, value = attribute.split('=', 1)
             # Handle the formating (string, integer, float, underscore)
             value = value.replace('_', ' ')
-
             if value[0] == value[-1] == '"':
                 value = value[1:-1]
                 if '"' in value:
