@@ -150,10 +150,7 @@ class HBNBCommand(cmd.Cmd):
                 # If value isn't in quotation marks
                 # it might be a numerical value
                 try:
-                    if '.' in value:
-                        value = float(value)
-                    else:
-                        value = int(value)
+                    value = int(value)
                 except ValueError:
                     try:
                         value = float(value)
