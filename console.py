@@ -10,7 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import models
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -114,45 +114,54 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """Creates a new instance of a Model"""
-        if args:
-            try:
-                args = args.split()
-                template = models.dummy_classes[args[0]]
-                new_instance = template()
-                try:
-                    for pair in args[1:]:
-                        pair_split = pair.split("=")
-                        if (hasattr(new_instance, pair_split[0])):
-                            value = pair_split[1]
-                            flag = 0
-                            if (value.startswith('"')):
-                                value = value.strip('"')
-                                value = value.replace("\\", "")
-                                value = value.replace("_", " ")
-                            elif ("." in value):
-                                try:
-                                    value = float(value)
-                                except:
-                                    flag = 1
-                            else:
-                                try:
-                                    value = int(value)
-                                except:
-                                    flag = 1
-                            if (not flag):
-                                setattr(new_instance, pair_split[0], value)
-                        else:
-                            continue
-                    new_instance.save()
-                    print(new_instance.id)
-                except:
-                    new_instance.rollback()
-            except:
-                print("** class doesn't exist **")
-                models.storage.rollback()
-        else:
+        """ Create an object of any class"""
+        # Check if the argument is empty
+        if not args:
             print("** class name missing **")
+            return
+        # Split the argument into a list of arguments (on each space)
+        args_list = args.split()
+        class_name = args_list[0]
+
+        # We know that the first item of this argument list should be the class
+        # Check if the class exists
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        # Create a new instance of the class
+        new_instance = HBNBCommand.classes[class_name]()
+
+        # contains the attribute to set to the class
+        # attribute and values are still separated by the `=` sign
+        attributes = args_list[1:]
+
+        # Go over all attributes and split keys and values from the `=` sign
+        for attribute in attributes:
+            key, value = attribute.split('=')
+            # Handle the formating (string, integer, float, underscore)
+            value = value.replace('_', ' ')
+
+            if value[0] == value[-1] == '"':
+                value = value[1:-1]
+            else:
+                # If value isn't in quotation marks
+                # it might be a numerical value
+                try:
+                    value = int(value)
+                except ValueError:
+                    try:
+                        value = float(value)
+                    except ValueError:
+                        pass  # If all fail, then it's a string
+
+            setattr(new_instance, key, value)
+
+        storage.save()
+        print(new_instance.id)
+        storage.save()
+
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
