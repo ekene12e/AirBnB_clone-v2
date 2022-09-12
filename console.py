@@ -149,14 +149,16 @@ class HBNBCommand(cmd.Cmd):
             else:
                 # If value isn't in quotation marks
                 # it might be a numerical value
-                try:
-                    value = int(value)
-                except ValueError:
+                if '.' in value:
                     try:
                         value = float(value)
                     except ValueError:
                         pass  # If all fail, then it's a string
-
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        pass        
             setattr(new_instance, key, value)
 
         storage.save()
