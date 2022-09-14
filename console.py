@@ -138,27 +138,28 @@ class HBNBCommand(cmd.Cmd):
 
         # Go over all attributes and split keys and values from the `=` sign
         for attribute in attributes:
-            key, value = attribute.split('=', 1)
-            # Handle the formating (string, integer, float, underscore)
-            value = value.replace('_', ' ')
-            if value[0] == value[-1] == '"':
-                value = value[1:-1]
-                if '"' in value:
-                    value = value.strip('\\')
-            else:
-                # If value isn't in quotation marks
-                # it might be a numerical value
-                if '.' in value:
-                    try:
-                        value = float(value)
-                    except ValueError:
-                        pass  # If all fail, then it's a string
+            if '=' in attribute:
+                key, value = attribute.split('=', 1)
+                # Handle the formating (string, integer, float, underscore)
+                value = value.replace('_', ' ')
+                if value[0] == value[-1] == '"':
+                    value = value[1:-1]
+                    if '"' in value:
+                        value = value.strip('\\')
                 else:
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        pass
-                    setattr(new_instance, key, value)
+                    # If value isn't in quotation marks
+                    # it might be a numerical value
+                    if '.' in value:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass  # If all fail, then it's a string
+                    else:
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            pass
+                        setattr(new_instance, key, value)
 
         storage.save()
         print(new_instance.id)
