@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains the class DBStorage
-"""
+"""This is the database storage class for AirBnB"""
 
 from models.base_model import BaseModel, Base
 from models.user import User
@@ -12,17 +10,15 @@ from models.place import Place
 from models.review import Review
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_sessioin
-
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBStorage:
-    """interaacts with the MySQL database
+    """This class save instances to a mysql db and
+    get instances from the db
     Attributes:
-    __engine: create the interfaces of communication with the db
-    __session: open a communication with the db
+        __engine: create the interfaces of comunication with db
+        __session: open a comunication with the db
     """
     __engine = None
     __session = None
