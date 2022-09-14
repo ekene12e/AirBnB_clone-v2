@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class State"""
+"""This is the state class"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
@@ -9,11 +9,11 @@ import os
 
 
 class State(BaseModel, Base):
-    """Representation of state
+    """This is the class for State
     Attributes:
-    name: input name
+        name: input name
     """
-      __tablename__ = 'states'
+    __tablename__ = 'states'
 
     name = Column(String(128), nullable=False)
 
