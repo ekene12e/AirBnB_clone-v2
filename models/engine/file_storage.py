@@ -62,6 +62,12 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
+
+    def close(self):
+        """Close the storage"""
+        self.reload()
+
+
     def delete(self, obj=None):
         """Delete obj from __objects if it’s inside
         """
@@ -70,6 +76,3 @@ class FileStorage:
             if key in self.__objects:
                 del self.__objects[key]
 
-    def close(self):
-        """Close session"""
-        reload()
