@@ -31,7 +31,8 @@ def python(text):
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
-def number(n):
+def disp_number(n):
+    """display “n is a number” only"""
     text = f'{n} is a number'
     return text
 
